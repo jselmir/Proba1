@@ -1,0 +1,69 @@
+﻿<Window x:Class="WpfSlika2016.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:WpfSlika2016"
+        Title="MainWindow" Height="500" Width="620"
+        Loaded="WindowLoaded">
+    <Window.Resources>
+        <local:PolConverter x:Key="konv1"/>
+        <local:SlikaConverter x:Key="konv2"/>
+    </Window.Resources>
+        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="118*"/>
+            <ColumnDefinition Width="399*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="Label1" Content="Id" HorizontalAlignment="Left" Margin="32,31,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Label2"  Content="Ime" HorizontalAlignment="Left" Margin="32,69,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.447,0.885"/>
+        <Label x:Name="Label3" Content="Prezime" HorizontalAlignment="Left" Margin="32,109,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextBoxId" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="23" Margin="97,35,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+        <TextBox x:Name="TextBoxIme" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="23" Margin="97,73,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="TextBoxPrezime" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="23" Margin="97,113,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <GroupBox Header="Pol" HorizontalAlignment="Left" Margin="32,163,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="185" Height="66">
+            <StackPanel>
+                <RadioButton Name="RadioMale" IsChecked="True" Content="Muski pol" Margin="5"/>
+                <RadioButton Name="RadioFMale" Content="Zenski pol" Margin="5"/>
+            </StackPanel>
+        </GroupBox>
+        <Label x:Name="Label4" Content="Label" HorizontalAlignment="Left" Margin="43,246,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.605,-0.154"/>
+        <Button x:Name="ButtonOdaberi" Grid.ColumnSpan="2" Content="Odaberi" HorizontalAlignment="Left" Margin="125,249,0,0" VerticalAlignment="Top" Width="75" Click="ButtonOdaberi_Click"/>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="100" Margin="43,312,0,0" VerticalAlignment="Top" Width="157">
+            <Image x:Name="image1" Margin="5"/>
+        </Border>
+        <Button x:Name="ButtonNovi" Content="Novi unos" HorizontalAlignment="Left" Margin="43,437,0,0" VerticalAlignment="Top" Width="75" Click="ButtonNovi_Click"/>
+        <Button x:Name="ButtonUbaci" Content="Ubaci" Grid.Column="1" HorizontalAlignment="Left" Margin="0,437,0,0" VerticalAlignment="Top" Width="75" Click="ButtonUbaci_Click"/>
+        <Button x:Name="ButtonPromijeni" Content="Promijeni" Grid.Column="1" HorizontalAlignment="Left" Margin="99,437,0,0" VerticalAlignment="Top" Width="75" Click="ButtonPromijeni_Click"/>
+        <Button x:Name="ButtonObrisi" Content="Obrisi" Grid.Column="1" HorizontalAlignment="Left" Margin="197,437,0,0" VerticalAlignment="Top" Width="75" Click="ButtonObrisi_Click"/>
+        <!--Grid je kontejnerska kontrola dok je DataGrid kontrola za prikaz podataka
+        nije dobro mijesati grid i data grid-->
+        <DataGrid x:Name="dataGrid1" 
+                  Grid.Column="1" 
+                  HorizontalAlignment="Left"
+                  Margin="110,31,0,0" VerticalAlignment="Top" 
+                  Height="387" Width="350"
+                  AlternationCount="2"
+                  AlternatingRowBackground="LightGreen"
+                  CanUserAddRows="False"
+                  CanUserSortColumns="False"
+                  AutoGenerateColumns="False"
+                  SelectionUnit="FullRow"
+                  IsReadOnly="True"
+                  SelectionChanged="dataGrid1_SelectionChanged"> <!--ako nije read only bice edibatilno i moze doci do pucanja aplikacije-->
+                  
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Ime" Width="80" Binding="{Binding Path=Ime}"/> <!--podatke postavlja iz izvora podataka tako sto posmatra kolonu ime-->
+                <DataGridTextColumn Header="Prezime" Width="80" Binding="{Binding Path=Prezime}"/>
+                <DataGridTextColumn Header="Pol" Width="80" Binding="{Binding Path=Pol,Converter={StaticResource konv1}}" />
+                <DataGridTemplateColumn Header="Fotografija">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Path=Slika,Converter={StaticResource konv2}}" Height="40"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+
+    </Grid>
+</Window>
